@@ -2,6 +2,10 @@
 
 WIp mod too for poo poo game
 
-![demo](https://scrapmechanic.theguy920.dev/assets/stealin.gif)
+### Cool:
 
-![demo](https://scrapmechanic.theguy920.dev/assets/modtoolA.gif)
+<img src="/assets/modtoolA.gif?raw=true">
+
+### More Cool:
+
+<img src="/assets/stealin.gif?raw=true">
