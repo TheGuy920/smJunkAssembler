@@ -1,0 +1,1583 @@
+﻿<ui:FluentWindow
+    x:Class="ModTool.Windows.ModToolWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:aDock="https://github.com/Dirkster99/AvalonDock"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:lang="clr-namespace:ModTool.Languages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    x:Name="MainWindowX"
+    Title="{x:Static lang:Strings.ProgramTitle}"
+    Width="1200"
+    Height="750"
+    MinWidth="600"
+    MinHeight="400"
+    d:DesignHeight="750"
+    d:DesignWidth="1200"
+    ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+    ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    ContentRendered="EntireWindowContentRendered"
+    ExtendsContentIntoTitleBar="True"
+    PreviewKeyDown="WindowPreviewKeyDown"
+    PreviewKeyUp="WindowPreviewKeyUp"
+    PreviewMouseMove="EntireWindowMouseMove"
+    ResizeMode="CanResize"
+    SizeChanged="EntireWindowSizeChanged"
+    WindowCornerPreference="Round"
+    WindowStartupLocation="CenterScreen"
+    WindowState="Normal"
+    WindowStyle="SingleBorderWindow"
+    mc:Ignorable="d">
+    <ui:FluentWindow.Resources>
+        <ControlTemplate x:Key="SimpleExpanderButtonTemp" TargetType="{x:Type ToggleButton}">
+            <Border
+                x:Name="ExpanderButtonBorder"
+                Margin="1.5,0"
+                Padding="1.5,0"
+                HorizontalAlignment="Stretch"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                BorderThickness="{TemplateBinding BorderThickness}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Rectangle
+                        x:Name="recT"
+                        Grid.ColumnSpan="2"
+                        Fill="Transparent"
+                        Opacity="0.1" />
+                    <Path
+                        x:Name="Sign"
+                        Grid.Column="0"
+                        Width="10"
+                        Height="10"
+                        Margin="{Binding Padding, RelativeSource={RelativeSource TemplatedParent}}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Data="M 3,1 L 8,4.5 L 3,8 Z"
+                        Fill="Transparent"
+                        RenderTransformOrigin="0.5,0.5"
+                        Stroke="{DynamicResource TextFillColorPrimaryBrush}"
+                        StrokeThickness="1">
+                        <Path.RenderTransform>
+                            <RotateTransform Angle="0" />
+                        </Path.RenderTransform>
+                    </Path>
+                    <ContentPresenter
+                        x:Name="HeaderContent"
+                        Grid.Column="1"
+                        Margin="0"
+                        ContentSource="Content" />
+                </Grid>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter TargetName="Sign" Property="Data" Value="M 2,7 L 7,7 L 7,2 Z" />
+                    <Setter TargetName="Sign" Property="Fill" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="recT" Property="Fill" Value="White" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <ControlTemplate x:Key="SimpleExpanderTemp" TargetType="{x:Type ui:CardExpander}">
+            <DockPanel HorizontalAlignment="Stretch">
+                <ToggleButton
+                    x:Name="ExpanderButton"
+                    Padding="{TemplateBinding Padding}"
+                    HorizontalAlignment="Stretch"
+                    Content="{TemplateBinding Header}"
+                    DockPanel.Dock="Top"
+                    IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
+                    OverridesDefaultStyle="True"
+                    Template="{StaticResource SimpleExpanderButtonTemp}" />
+                <ContentPresenter
+                    x:Name="ExpanderContent"
+                    Margin="20,0,0,0"
+                    DockPanel.Dock="Bottom"
+                    Visibility="Collapsed" />
+            </DockPanel>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsExpanded" Value="True">
+                    <Setter TargetName="ExpanderContent" Property="Visibility" Value="Visible" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </ui:FluentWindow.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ui:TitleBar
+                Grid.Column="1"
+                Height="38"
+                MinWidth="125"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"
+                Background="Transparent"
+                ShowClose="False"
+                ShowMaximize="False"
+                ShowMinimize="False" />
+
+            <ScrollViewer
+                Grid.Column="0"
+                MaxWidth="{Binding ElementName=HeadLengthReference, Path=ActualWidth}"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                HorizontalScrollBarVisibility="Auto"
+                ScrollViewer.PanningMode="HorizontalOnly"
+                VerticalScrollBarVisibility="Disabled">
+                <StackPanel
+                    x:Name="HeaderControls"
+                    Height="30"
+                    Margin="15,8,0,0"
+                    HorizontalAlignment="Left"
+                    Orientation="Horizontal">
+                    <StackPanel.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.MergedDictionaries>
+                                <ResourceDictionary Source="MenuControls.xaml" />
+                            </ResourceDictionary.MergedDictionaries>
+                        </ResourceDictionary>
+                    </StackPanel.Resources>
+                    <Grid
+                        Width="20"
+                        Height="20"
+                        RenderTransformOrigin="0.5,0.5">
+                        <ui:Image
+                            RenderTransformOrigin="0.5,0.5"
+                            SnapsToDevicePixels="True"
+                            Source="/AppMedia/gui_icon_bearing.png" />
+                        <Grid.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform />
+                                <RotateTransform x:Name="ImageRotateTransform" Angle="0" />
+                                <TranslateTransform />
+                            </TransformGroup>
+                        </Grid.RenderTransform>
+                        <Grid.Triggers>
+                            <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            RepeatBehavior="Forever"
+                                            Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)"
+                                            From="0"
+                                            To="360"
+                                            Duration="0:0:5">
+                                            <DoubleAnimation.EasingFunction>
+                                                <QuarticEase EasingMode="EaseInOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Grid.Triggers>
+                    </Grid>
+                    <Menu x:Name="HeaderMenu" Margin="5,0">
+                        <MenuItem Height="30">
+                            <MenuItem.Header>
+                                <TextBlock
+                                    Margin="-14"
+                                    Padding="12,2"
+                                    FontSize="16"
+                                    Text="{x:Static lang:Strings.File}" />
+                            </MenuItem.Header>
+                            <MenuItem Width="300">
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="False"
+                                        Symbol="AddCircle20">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock
+                                        Margin="0,2,0,0"
+                                        FontSize="12"
+                                        Text="{x:Static lang:Strings.New}" />
+                                </MenuItem.Header>
+                                <MenuItem Width="250" Click="NewProjectClick">
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon
+                                            Margin="0,-20,10,0"
+                                            Filled="True"
+                                            Foreground="MediumPurple"
+                                            Symbol="FormNew24">
+                                            <ui:SymbolIcon.RenderTransform>
+                                                <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                            </ui:SymbolIcon.RenderTransform>
+                                        </ui:SymbolIcon>
+                                    </MenuItem.Icon>
+                                    <MenuItem.Header>
+                                        <TextBlock FontSize="12" Text="{x:Static lang:Strings.NewProject}" />
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <MenuItem>
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon
+                                            Margin="0,-20,10,0"
+                                            Filled="True"
+                                            Foreground="CornflowerBlue"
+                                            Symbol="AppGeneric24">
+                                            <ui:SymbolIcon.RenderTransform>
+                                                <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                            </ui:SymbolIcon.RenderTransform>
+                                        </ui:SymbolIcon>
+                                    </MenuItem.Icon>
+                                    <MenuItem.Header>
+                                        <TextBlock FontSize="12" Text="{x:Static lang:Strings.NewRepo}" />
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <MenuItem Click="NewFileClick">
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon
+                                            Margin="0,-20,10,0"
+                                            Filled="True"
+                                            Foreground="CadetBlue"
+                                            Symbol="DocumentAdd48">
+                                            <ui:SymbolIcon.RenderTransform>
+                                                <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                            </ui:SymbolIcon.RenderTransform>
+                                        </ui:SymbolIcon>
+                                    </MenuItem.Icon>
+                                    <MenuItem.Header>
+                                        <TextBlock FontSize="12" Text="{x:Static lang:Strings.NewFile}" />
+                                    </MenuItem.Header>
+                                </MenuItem>
+                            </MenuItem>
+                            <MenuItem>
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="False"
+                                        Symbol="Open28">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock FontSize="12" Text="{x:Static lang:Strings.Open}" />
+                                </MenuItem.Header>
+                                <MenuItem>
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon
+                                            Margin="0,-20,10,0"
+                                            Filled="True"
+                                            Foreground="MediumPurple"
+                                            Symbol="BoxArrowUp24">
+                                            <ui:SymbolIcon.RenderTransform>
+                                                <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                            </ui:SymbolIcon.RenderTransform>
+                                        </ui:SymbolIcon>
+                                    </MenuItem.Icon>
+                                    <MenuItem.Header>
+                                        <TextBlock FontSize="12" Text="{x:Static lang:Strings.OpenProj}" />
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <MenuItem>
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon
+                                            Margin="0,-20,10,0"
+                                            Filled="True"
+                                            Foreground="SeaGreen"
+                                            Symbol="DocumentArrowUp16">
+                                            <ui:SymbolIcon.RenderTransform>
+                                                <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                            </ui:SymbolIcon.RenderTransform>
+                                        </ui:SymbolIcon>
+                                    </MenuItem.Icon>
+                                    <MenuItem.Header>
+                                        <TextBlock FontSize="12" Text="{x:Static lang:Strings.OpenFile}" />
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <MenuItem>
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon
+                                            Margin="0,-20,10,0"
+                                            Filled="True"
+                                            Foreground="Goldenrod"
+                                            Symbol="FolderOpen20">
+                                            <ui:SymbolIcon.RenderTransform>
+                                                <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                            </ui:SymbolIcon.RenderTransform>
+                                        </ui:SymbolIcon>
+                                    </MenuItem.Icon>
+                                    <MenuItem.Header>
+                                        <TextBlock FontSize="12" Text="{x:Static lang:Strings.OpenFolder}" />
+                                    </MenuItem.Header>
+                                </MenuItem>
+                            </MenuItem>
+                            <MenuItem>
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="True"
+                                        FontSize="28"
+                                        Foreground="CornflowerBlue"
+                                        Symbol="Save16">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock FontSize="12" Text="{x:Static lang:Strings.Save}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem>
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="True"
+                                        FontSize="28"
+                                        Foreground="CornflowerBlue"
+                                        Symbol="SaveMultiple16">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock FontSize="12" Text="{x:Static lang:Strings.SaveAll}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem>
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="False"
+                                        FontSize="28"
+                                        Symbol="Settings48">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock FontSize="12" Text="{x:Static lang:Strings.Settings}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem>
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="False"
+                                        Foreground="OrangeRed"
+                                        Symbol="ArrowExit20">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock FontSize="12" Text="{x:Static lang:Strings.Exit}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                        </MenuItem>
+                        <MenuItem>
+                            <MenuItem.Header>
+                                <TextBlock
+                                    Margin="-14"
+                                    Padding="12,2"
+                                    FontSize="16"
+                                    Text="{x:Static lang:Strings.Edit}" />
+                            </MenuItem.Header>
+                            <MenuItem Width="300">
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="False"
+                                        Foreground="Aqua"
+                                        Symbol="SquareHintArrowBack16">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock FontSize="12" Text="{x:Static lang:Strings.GoTo}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem>
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="False"
+                                        Foreground="DodgerBlue"
+                                        Symbol="DocumentEdit16">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock FontSize="12" Text="{x:Static lang:Strings.FindReplace}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <Separator Opacity="0.25" />
+                            <MenuItem IsEnabled="False">
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="False"
+                                        Symbol="ArrowUndo16">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock FontSize="12" Text="{x:Static lang:Strings.Undo}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem IsEnabled="False">
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="False"
+                                        Symbol="ArrowRedo16">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock FontSize="12" Text="{x:Static lang:Strings.Redo}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <Separator Opacity="0.25" />
+                            <MenuItem>
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="False"
+                                        Foreground="Gold"
+                                        Symbol="Cut24">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock FontSize="12" Text="{x:Static lang:Strings.Cut}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem>
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="False"
+                                        Foreground="DodgerBlue"
+                                        Symbol="Copy16">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock FontSize="12" Text="{x:Static lang:Strings.Copy}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem>
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="False"
+                                        Foreground="DodgerBlue"
+                                        Symbol="ClipboardPaste16">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock FontSize="12" Text="{x:Static lang:Strings.Paste}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem>
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="False"
+                                        Foreground="DodgerBlue"
+                                        Symbol="DocumentMultiple16">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock FontSize="12" Text="{x:Static lang:Strings.Duplicate}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem>
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="False"
+                                        Foreground="IndianRed"
+                                        Symbol="Delete16">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock FontSize="12" Text="{x:Static lang:Strings.Delete}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem>
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="False"
+                                        Foreground="DarkGoldenrod"
+                                        Symbol="TableInsertRow16">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock FontSize="12" Text="{x:Static lang:Strings.InsertGuid}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <Separator Opacity="0.25" />
+                            <MenuItem>
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="False"
+                                        Foreground="CornflowerBlue"
+                                        Symbol="SelectAllOn24">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock FontSize="12" Text="{x:Static lang:Strings.SelectAll}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <Separator Opacity="0.25" />
+                            <MenuItem>
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="False"
+                                        Foreground="CadetBlue"
+                                        Symbol="Code16">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock FontSize="12" Text="{x:Static lang:Strings.FormatDoc}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem>
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="False"
+                                        Foreground="CornflowerBlue"
+                                        Symbol="CodeBlock16">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock FontSize="12" Text="{x:Static lang:Strings.FormatSelec}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                        </MenuItem>
+                        <MenuItem x:Name="ViewMenuTab">
+                            <MenuItem.Header>
+                                <TextBlock
+                                    Margin="-14"
+                                    Padding="12,2"
+                                    FontSize="16"
+                                    Text="{x:Static lang:Strings.View}" />
+                            </MenuItem.Header>
+                            <MenuItem x:Name="windowSample" Width="300">
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="False"
+                                        Symbol="Window16">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock FontSize="12" Text="{x:Static lang:Strings.Window}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                        </MenuItem>
+                        <MenuItem>
+                            <MenuItem.Header>
+                                <TextBlock
+                                    Margin="-14"
+                                    Padding="12,2"
+                                    FontSize="16"
+                                    Text="{x:Static lang:Strings.Git}" />
+                            </MenuItem.Header>
+                            <MenuItem Width="300">
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="False"
+                                        Foreground="CornflowerBlue"
+                                        Symbol="ArrowDownload16">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock FontSize="12" Text="{x:Static lang:Strings.CloneRepo}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem>
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="True"
+                                        Foreground="SeaGreen"
+                                        Symbol="AppGeneric24">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock FontSize="12" Text="{x:Static lang:Strings.InitRepo}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem>
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="True"
+                                        Foreground="DodgerBlue"
+                                        Symbol="SendCopy24">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock FontSize="12" Text="{x:Static lang:Strings.ComOrStash}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <Separator Opacity="0.25" />
+                            <MenuItem>
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="True"
+                                        Foreground="DodgerBlue"
+                                        Symbol="ArrowAutofitDown24">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock FontSize="12" Text="{x:Static lang:Strings.Fetch}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem>
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="False"
+                                        Foreground="DodgerBlue"
+                                        Symbol="ArrowCircleDown16">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock FontSize="12" Text="{x:Static lang:Strings.Pull}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem>
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="True"
+                                        Foreground="#FF4040FF"
+                                        Symbol="ArrowUpload24">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock FontSize="12" Text="{x:Static lang:Strings.Push}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem>
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="True"
+                                        Foreground="ForestGreen"
+                                        Symbol="ArrowSync16">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock FontSize="12" Text="{x:Static lang:Strings.SyncInfo}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <Separator Opacity="0.25" />
+                            <MenuItem>
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="False"
+                                        Foreground="Goldenrod"
+                                        Symbol="Branch16">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock FontSize="12" Text="{x:Static lang:Strings.CreateBranch}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem>
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="False"
+                                        Foreground="IndianRed"
+                                        Symbol="ArchiveSettings20">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock FontSize="12" Text="{x:Static lang:Strings.ManBranch}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <Separator Opacity="0.25" />
+                            <MenuItem Click="OpenFileExplorer">
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="True"
+                                        Foreground="Goldenrod"
+                                        Symbol="FolderOpen16">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock FontSize="12" Text="{x:Static lang:Strings.OpenInExplor}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem Click="OpenGitCmd" Tag="0">
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="False"
+                                        Foreground="Black"
+                                        Symbol="WindowDevEdit16">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock FontSize="12" Text="{x:Static lang:Strings.OpenInCmd}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem
+                                Click="OpenGitCmd"
+                                Tag="1"
+                                Visibility="Collapsed">
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon
+                                        Margin="0,-20,10,0"
+                                        Filled="False"
+                                        Foreground="Black"
+                                        Symbol="WindowDevEdit16">
+                                        <ui:SymbolIcon.RenderTransform>
+                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                        </ui:SymbolIcon.RenderTransform>
+                                    </ui:SymbolIcon>
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <TextBlock FontSize="12" Text="{x:Static lang:Strings.OpenInBash}" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                        </MenuItem>
+                        <MenuItem>
+                            <MenuItem.Header>
+                                <TextBlock
+                                    Margin="-14"
+                                    Padding="12,2"
+                                    FontSize="16"
+                                    Text="{x:Static lang:Strings.Project}" />
+                            </MenuItem.Header>
+                        </MenuItem>
+                        <MenuItem>
+                            <MenuItem.Header>
+                                <TextBlock
+                                    Margin="-14"
+                                    Padding="12,2"
+                                    FontSize="16"
+                                    Text="{x:Static lang:Strings.Test}" />
+                            </MenuItem.Header>
+                        </MenuItem>
+                        <MenuItem>
+                            <MenuItem.Header>
+                                <TextBlock
+                                    Margin="-14"
+                                    Padding="12,2"
+                                    FontSize="16"
+                                    Text="{x:Static lang:Strings.Tools}" />
+                            </MenuItem.Header>
+                        </MenuItem>
+                        <MenuItem>
+                            <MenuItem.Header>
+                                <TextBlock
+                                    Margin="-14"
+                                    Padding="12,2"
+                                    FontSize="16"
+                                    Text="{x:Static lang:Strings.Extensions}" />
+                            </MenuItem.Header>
+                        </MenuItem>
+                        <MenuItem>
+                            <MenuItem.Header>
+                                <TextBlock
+                                    Margin="-14"
+                                    Padding="12,2"
+                                    FontSize="16"
+                                    Text="{x:Static lang:Strings.Window}" />
+                            </MenuItem.Header>
+                        </MenuItem>
+                        <MenuItem>
+                            <MenuItem.Header>
+                                <TextBlock
+                                    Margin="-14"
+                                    Padding="12,2"
+                                    FontSize="16"
+                                    Text="{x:Static lang:Strings.Help}" />
+                            </MenuItem.Header>
+                        </MenuItem>
+                    </Menu>
+                    <Border
+                        Width="1"
+                        Height="27"
+                        Margin="0,1,0,0"
+                        VerticalAlignment="Top"
+                        Background="White"
+                        Opacity="0.25" />
+                    <ui:Button
+                        Margin="5,0,0,0"
+                        Padding="1"
+                        BorderThickness="0"
+                        CornerRadius="0"
+                        IsEnabled="False">
+                        <Grid>
+                            <Border
+                                Background="White"
+                                BorderBrush="Transparent"
+                                Opacity="0.1" />
+                            <TextBlock
+                                x:Name="SolutionNameTb"
+                                Margin="0"
+                                Padding="12,3"
+                                FontSize="16"
+                                Text="{x:Static lang:Strings.NamePlaceholder}" />
+                        </Grid>
+                    </ui:Button>
+                </StackPanel>
+            </ScrollViewer>
+            <StackPanel
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                Height="30"
+                Orientation="Horizontal">
+                <Rectangle
+                    Width="10"
+                    Height="25"
+                    Margin="10,0,0,0">
+                    <Rectangle.Fill>
+                        <DrawingBrush
+                            Stretch="None"
+                            TileMode="Tile"
+                            Viewport="0,0,3,3"
+                            ViewportUnits="Absolute">
+                            <!--  a drawing of 4 checkerboard tiles  -->
+                            <DrawingBrush.Drawing>
+                                <DrawingGroup>
+                                    <!--  checkerboard background  -->
+                                    <GeometryDrawing Brush="Transparent">
+                                        <GeometryDrawing.Geometry>
+                                            <RectangleGeometry Rect="0,0,9,9" />
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                    <!--  two checkerboard foreground tiles  -->
+                                    <GeometryDrawing Brush="#4f4a4a">
+                                        <GeometryDrawing.Geometry>
+                                            <GeometryGroup>
+                                                <RectangleGeometry Rect="0,0,4,4" />
+                                            </GeometryGroup>
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup>
+                            </DrawingBrush.Drawing>
+                        </DrawingBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Grid Margin="2,2,0,2">
+                    <ui:SymbolIcon
+                        Margin="3"
+                        FontSize="20"
+                        Foreground="CornflowerBlue"
+                        Opacity="0.5"
+                        Symbol="ArrowCircleLeft28" />
+                    <ui:Button
+                        Padding="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        ToolTip="{x:Static lang:Strings.PageBackward}"
+                        Visibility="Collapsed" />
+                </Grid>
+
+                <Grid Margin="0,2,2,2">
+                    <ui:SymbolIcon
+                        Margin="3"
+                        FontSize="20"
+                        Foreground="CornflowerBlue"
+                        Opacity="0.5"
+                        Symbol="ArrowCircleRight28" />
+                    <ui:Button
+                        Padding="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        ToolTip="{x:Static lang:Strings.PageForward}"
+                        Visibility="Collapsed" />
+                </Grid>
+                <Border
+                    Width="1"
+                    Height="25"
+                    Background="White"
+                    Opacity="0.25" />
+                <Grid Margin="2,2,0,2">
+                    <ui:SymbolIcon
+                        Margin="3"
+                        Filled="True"
+                        FontSize="20"
+                        Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                        Symbol="WindowNew20" />
+                    <ui:Button
+                        Padding="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        ToolTip="{x:Static lang:Strings.NewProject}" />
+                </Grid>
+
+                <Grid Margin="0,2">
+                    <ui:SymbolIcon
+                        Margin="3"
+                        Filled="True"
+                        FontSize="20"
+                        Foreground="Goldenrod"
+                        Symbol="FolderOpen20" />
+                    <ui:Button
+                        Padding="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        ToolTip="{x:Static lang:Strings.OpenFile}" />
+                </Grid>
+
+                <Grid Margin="0,2">
+                    <ui:SymbolIcon
+                        Margin="3"
+                        FontSize="20"
+                        Foreground="CornflowerBlue"
+                        Symbol="Save20" />
+                    <ui:Button
+                        Padding="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Click="SaveButtonClick"
+                        ToolTip="{x:Static lang:Strings.Save}" />
+                </Grid>
+
+                <Grid Margin="0,2,2,2">
+                    <ui:SymbolIcon
+                        Width="20"
+                        Margin="3"
+                        FontSize="20"
+                        Foreground="CornflowerBlue"
+                        Symbol="SaveMultiple20" />
+                    <ui:Button
+                        Padding="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        ToolTip="{x:Static lang:Strings.SaveAll}" />
+                </Grid>
+                <Border
+                    Width="1"
+                    Height="25"
+                    Background="White"
+                    Opacity="0.25" />
+                <Grid Margin="2,2,0,2">
+                    <ui:SymbolIcon
+                        Margin="3"
+                        FontSize="20"
+                        Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                        Opacity="0.15"
+                        Symbol="ArrowUndo48" />
+                    <ui:Button
+                        Padding="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        ToolTip="{x:Static lang:Strings.Undo}"
+                        Visibility="Collapsed" />
+                </Grid>
+                <Grid Margin="0,2,2,2">
+                    <ui:SymbolIcon
+                        Margin="3"
+                        FontSize="20"
+                        Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                        Opacity="0.15"
+                        Symbol="ArrowRedo48" />
+                    <ui:Button
+                        Padding="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        ToolTip="{x:Static lang:Strings.Redo}"
+                        Visibility="Collapsed" />
+                </Grid>
+                <Border
+                    Width="1"
+                    Height="25"
+                    Background="White"
+                    Opacity="0.25" />
+                <Grid Margin="5,0,0,0" ToolTip="{x:Static lang:Strings.ProjectConfig}">
+                    <Border
+                        Margin="0"
+                        BorderBrush="White"
+                        BorderThickness="1"
+                        Opacity="0.05" />
+                    <ui:DropDownButton
+                        x:Name="RunModeDropdown"
+                        Width="72"
+                        Height="30"
+                        Padding="0,0,2,0"
+                        HorizontalContentAlignment="Left"
+                        BorderThickness="0"
+                        CornerRadius="0"
+                        SnapsToDevicePixels="True">
+                        <ui:DropDownButton.DataContext>
+                            <ContextMenu x:Name="RunModeDropdownMenu">
+                                <MenuItem Click="ChangeToDebugClick" Header="Debug" />
+                                <MenuItem Click="ChangeToReleaseClick" Header="Release" />
+                            </ContextMenu>
+                        </ui:DropDownButton.DataContext>
+                        <ui:DropDownButton.Content>
+                            <TextBlock
+                                x:Name="RunModeText"
+                                Margin="0"
+                                Padding="5,0,0,0"
+                                FontSize="14"
+                                Text="{x:Static lang:Strings.Debug}" />
+                        </ui:DropDownButton.Content>
+                    </ui:DropDownButton>
+                </Grid>
+                <Grid Margin="5,0,0,0" ToolTip="{x:Static lang:Strings.StartupProj}">
+                    <ui:SplitButton
+                        x:Name="TargetProjectDropdown"
+                        Padding="2"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        CornerRadius="0">
+                        <ui:SplitButton.DataContext>
+                            <ContextMenu x:Name="TargetProjectDropdownMenu" />
+                        </ui:SplitButton.DataContext>
+                        <ui:SplitButton.Content>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
+                                <ui:SymbolIcon
+                                    x:Name="TargetProjectRunDebugIcon"
+                                    Grid.Column="0"
+                                    Margin="3,0,5,0"
+                                    Filled="True"
+                                    FontSize="22"
+                                    Foreground="LightGreen"
+                                    Symbol="Play48" />
+                                <TextBlock
+                                    x:Name="TargetProjectNameHolder"
+                                    Grid.Column="1"
+                                    Margin="0,0,4,2"
+                                    Padding="0"
+                                    VerticalAlignment="Center"
+                                    FontSize="12"
+                                    Text="{x:Static lang:Strings.NamePlaceholder}" />
+                                <Button
+                                    Grid.ColumnSpan="2"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    Click="RunCurrentTargetProject" />
+                            </Grid>
+                        </ui:SplitButton.Content>
+                    </ui:SplitButton>
+                </Grid>
+                <Grid Margin="2">
+                    <ui:SymbolIcon
+                        x:Name="RunNoDebugIcon"
+                        Margin="0,3,3,3"
+                        FontSize="20"
+                        Foreground="LightGreen"
+                        Symbol="Play48" />
+                    <ui:Button
+                        x:Name="RunNoDebugButton"
+                        Padding="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        ToolTip="{x:Static lang:Strings.RunNoDebug}" />
+                </Grid>
+                <Grid Margin="2">
+                    <ui:SymbolIcon
+                        Margin="3"
+                        FontSize="20"
+                        Foreground="SteelBlue"
+                        Symbol="DocumentSearch20" />
+                    <ui:Button
+                        Padding="0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        ToolTip="{x:Static lang:Strings.FindInFiles}" />
+                </Grid>
+            </StackPanel>
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid x:Name="HeadLengthReference" Grid.Column="0" />
+            <ui:TitleBar
+                Grid.Column="1"
+                Height="38"
+                MinWidth="125"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Background="Transparent" />
+        </Grid>
+
+        <Border
+            Grid.Row="1"
+            Margin="0,10,0,0"
+            BorderThickness="0">
+            <Grid>
+                <Grid Margin="10" Visibility="Collapsed">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <Grid
+                        Grid.Row="0"
+                        Height="30"
+                        Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Border
+                            Grid.ColumnSpan="3"
+                            Background="#59000000"
+                            BorderBrush="#BF000000"
+                            BorderThickness="0,0,1,1"
+                            CornerRadius="3" />
+                        <ui:Button
+                            Grid.Column="0"
+                            VerticalAlignment="Stretch"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            CornerRadius="3">
+                            <ui:SymbolIcon
+                                FontSize="20"
+                                Foreground="#A0FFFFFF"
+                                Symbol="ArrowLeft28" />
+                        </ui:Button>
+                        <Grid
+                            Grid.Column="1"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Viewbox
+                                Grid.Column="0"
+                                Margin="0,0,10,0"
+                                HorizontalAlignment="Right">
+                                <ui:SymbolIcon Symbol="WrenchScrewdriver20" />
+                            </Viewbox>
+                            <TextBlock
+                                Grid.Column="1"
+                                Margin="0,0,0,3"
+                                VerticalAlignment="Center"
+                                FontSize="22"
+                                Text="Tools" />
+                        </Grid>
+                        <ui:Button
+                            Grid.Column="2"
+                            VerticalAlignment="Stretch"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            CornerRadius="3">
+                            <ui:SymbolIcon
+                                FontSize="20"
+                                Foreground="#A0FFFFFF"
+                                Symbol="ArrowRight28" />
+                        </ui:Button>
+                    </Grid>
+                    <Grid Grid.Row="1" Height="25">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <ui:DropDownButton
+                            Grid.Column="0"
+                            MinWidth="100"
+                            Padding="5,0"
+                            HorizontalContentAlignment="Stretch"
+                            CornerRadius="2">
+                            <TextBlock
+                                HorizontalAlignment="Stretch"
+                                Text="Filters"
+                                TextAlignment="Left" />
+                        </ui:DropDownButton>
+                        <Border
+                            Grid.Column="1"
+                            Width="300"
+                            Margin="20,0,0,0"
+                            Background="#19FFFFFF"
+                            CornerRadius="2">
+                            <Grid>
+                                <TextBox
+                                    Padding="0,0,20,0"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Style="{x:Null}" />
+                                <ui:SymbolIcon
+                                    Margin="5,0"
+                                    HorizontalAlignment="Right"
+                                    Symbol="Search24" />
+                            </Grid>
+                        </Border>
+                        <ui:Button
+                            x:Name="SearchStrictChar"
+                            Grid.Column="2"
+                            Width="{Binding ElementName=SearchStrictChar, Path=ActualHeight}"
+                            Margin="5,0,2,0"
+                            Padding="0"
+                            VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
+                            Background="Transparent"
+                            CornerRadius="2">
+                            <ui:SymbolIcon FontSize="14" Symbol="TextCaseTitle24" />
+                        </ui:Button>
+                        <ui:Button
+                            x:Name="SearchStrictWord"
+                            Grid.Column="3"
+                            Width="{Binding ElementName=SearchStrictWord, Path=ActualHeight}"
+                            Margin="2,0"
+                            Padding="0"
+                            VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
+                            Background="Transparent"
+                            CornerRadius="2">
+                            <Grid>
+                                <Border
+                                    Height="1"
+                                    Margin="2,1"
+                                    VerticalAlignment="Top"
+                                    Background="{DynamicResource TextFillColorPrimaryBrush}"
+                                    CornerRadius="1" />
+                                <ui:SymbolIcon
+                                    ClipToBounds="True"
+                                    FontSize="14"
+                                    FontWeight="ExtraLight"
+                                    Symbol="TextCaseLowercase20" />
+                                <Border
+                                    Height="1"
+                                    Margin="2,1"
+                                    VerticalAlignment="Bottom"
+                                    Background="{DynamicResource TextFillColorPrimaryBrush}"
+                                    CornerRadius="1" />
+                            </Grid>
+                        </ui:Button>
+                        <ui:Button
+                            x:Name="SearchEnDisRegex"
+                            Grid.Column="4"
+                            Width="{Binding ElementName=SearchEnDisRegex, Path=ActualHeight}"
+                            Margin="2,0,10,0"
+                            Padding="0"
+                            VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
+                            Background="Transparent"
+                            CornerRadius="2">
+                            <ui:SymbolIcon FontSize="20" Symbol="TextPeriodAsterisk20" />
+                        </ui:Button>
+                        <ui:DropDownButton
+                            Grid.Column="5"
+                            MinWidth="100"
+                            Padding="5,0"
+                            HorizontalContentAlignment="Stretch"
+                            CornerRadius="2">
+                            <TextBlock
+                                HorizontalAlignment="Stretch"
+                                Text="Replace Options"
+                                TextAlignment="Left" />
+                        </ui:DropDownButton>
+                        <Border
+                            Grid.Column="6"
+                            Width="300"
+                            Margin="20,0,5,0"
+                            Background="#19FFFFFF"
+                            CornerRadius="2">
+                            <Grid>
+                                <TextBox
+                                    Padding="0,0,20,0"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Style="{x:Null}" />
+                                <ui:SymbolIcon
+                                    Margin="5,0"
+                                    HorizontalAlignment="Right"
+                                    Symbol="Search24" />
+                            </Grid>
+                        </Border>
+                        <ui:Button
+                            Grid.Column="7"
+                            Margin="2,0"
+                            Padding="0,2"
+                            Background="Transparent"
+                            CornerRadius="2"
+                            ToolTip="{x:Static lang:Strings.ReplaceOne}">
+                            <Grid>
+                                <Viewbox
+                                    Height="{Binding ElementName=ReplaceAllButton, Path=ActualWidth}"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Bottom">
+                                    <ui:SymbolIcon Margin="0,20,0,0" Symbol="DocumentText24" />
+                                </Viewbox>
+                                <ui:SymbolIcon
+                                    Margin="0,0,10,0"
+                                    FontSize="16"
+                                    Symbol="ArrowTurnDownRight48" />
+                            </Grid>
+                        </ui:Button>
+                        <ui:Button
+                            x:Name="ReplaceAllButton"
+                            Grid.Column="8"
+                            Margin="2,0"
+                            Padding="0,2"
+                            Background="Transparent"
+                            CornerRadius="2"
+                            FontSize="16"
+                            ToolTip="{x:Static lang:Strings.ReplaceAll}">
+                            <Grid>
+                                <Viewbox
+                                    Height="{Binding ElementName=ReplaceAllButton, Path=ActualWidth}"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Bottom">
+                                    <ui:SymbolIcon Margin="0,20,0,0" Symbol="LayerDiagonal20" />
+                                </Viewbox>
+                                <ui:SymbolIcon
+                                    Margin="0,0,13,0"
+                                    FontSize="16"
+                                    Symbol="ArrowTurnDownRight48" />
+                            </Grid>
+                        </ui:Button>
+                        <ui:Button
+                            Grid.Column="9"
+                            Padding="5,0"
+                            HorizontalAlignment="Right"
+                            Content="Empty"
+                            CornerRadius="2" />
+                    </Grid>
+                    <ScrollViewer Grid.Row="2">
+                        <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Top">
+                            <ui:Card
+                                Width="150"
+                                Margin="20"
+                                Padding="10"
+                                VerticalAlignment="Stretch"
+                                VerticalContentAlignment="Stretch"
+                                BorderBrush="#3F000000"
+                                BorderThickness="0,0,2,2">
+                                <Grid VerticalAlignment="Stretch">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="1*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="1*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Image
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        Height="30"
+                                        Margin="0,0,0,8"
+                                        VerticalAlignment="Top"
+                                        Source="/Windows/gui_icon_bearing.png" />
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Top"
+                                        FontSize="16"
+                                        Text="Tool Item" />
+                                    <StackPanel
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Margin="0">
+                                        <TextBlock
+                                            Margin="0,2"
+                                            FontSize="10"
+                                            Text="Property:" />
+                                        <TextBlock
+                                            Margin="0,2"
+                                            FontSize="10"
+                                            Text="Property:" />
+                                        <TextBlock
+                                            Margin="0,2"
+                                            FontSize="10"
+                                            Text="Property:" />
+                                        <TextBlock
+                                            Margin="0,2"
+                                            FontSize="10"
+                                            Text="Property:" />
+                                        <TextBlock
+                                            Margin="0,2"
+                                            FontSize="10"
+                                            Text="Property:" />
+                                    </StackPanel>
+                                    <StackPanel
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Margin="2,2,0,0">
+                                        <TextBlock
+                                            Margin="0,2"
+                                            FontSize="10"
+                                            Text="Value"
+                                            TextAlignment="Right" />
+                                        <TextBlock
+                                            Margin="0,2"
+                                            FontSize="10"
+                                            Text="Value"
+                                            TextAlignment="Right" />
+                                        <TextBlock
+                                            Margin="0,2"
+                                            FontSize="10"
+                                            Text="Value"
+                                            TextAlignment="Right" />
+                                        <TextBlock
+                                            Margin="0,2"
+                                            FontSize="10"
+                                            Text="Value"
+                                            TextAlignment="Right" />
+                                        <TextBlock
+                                            Margin="0,2"
+                                            FontSize="10"
+                                            Text="Value"
+                                            TextAlignment="Right" />
+                                    </StackPanel>
+                                </Grid>
+                            </ui:Card>
+
+                        </WrapPanel>
+                    </ScrollViewer>
+                </Grid>
+                <aDock:DockingManager
+                    x:Name="DockManager"
+                    AllowMixedOrientation="True"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                    Visibility="Visible">
+                    <aDock:LayoutRoot x:Name="DockLayoutRoot" />
+                </aDock:DockingManager>
+            </Grid>
+        </Border>
+    </Grid>
+</ui:FluentWindow>

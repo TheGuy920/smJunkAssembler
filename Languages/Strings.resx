@@ -1,0 +1,504 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="BlocksNParts" xml:space="preserve">
+    <value>Blocks and Parts</value>
+  </data>
+  <data name="BlocksNPartsDesc" xml:space="preserve">
+    <value>A mod template for adding custom blocks, parts or scriptable objects</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="CloneRepo" xml:space="preserve">
+    <value>Clone Respository</value>
+  </data>
+  <data name="CloneRepoDesc" xml:space="preserve">
+    <value>Get code from an online repository like GitHub or Azure DevOps</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="ComOrStash" xml:space="preserve">
+    <value>Commit or Stash</value>
+  </data>
+  <data name="ContinueNoCode" xml:space="preserve">
+    <value>Continue Without Code</value>
+  </data>
+  <data name="Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="CreateBranch" xml:space="preserve">
+    <value>Create Branch</value>
+  </data>
+  <data name="CreateRepo" xml:space="preserve">
+    <value>Create Repository</value>
+  </data>
+  <data name="Creative" xml:space="preserve">
+    <value>Creative</value>
+  </data>
+  <data name="CustomGame" xml:space="preserve">
+    <value>Custom Game</value>
+  </data>
+  <data name="CustomGameDesc" xml:space="preserve">
+    <value>A mod template for creating entirely new or modifying existing game logic</value>
+  </data>
+  <data name="Cut" xml:space="preserve">
+    <value>Cut</value>
+  </data>
+  <data name="DatePlaceholder" xml:space="preserve">
+    <value>01/01/2024</value>
+  </data>
+  <data name="Debug" xml:space="preserve">
+    <value>Debug</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Duplicate" xml:space="preserve">
+    <value>Duplicate</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="Extensions" xml:space="preserve">
+    <value>Extensions</value>
+  </data>
+  <data name="Fetch" xml:space="preserve">
+    <value>Fetch</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="FileExplorer" xml:space="preserve">
+    <value>File Explorer</value>
+  </data>
+  <data name="FilterPlaceholder" xml:space="preserve">
+    <value>Filters</value>
+  </data>
+  <data name="FindInFiles" xml:space="preserve">
+    <value>Find in Files</value>
+  </data>
+  <data name="FindPlaceHolder" xml:space="preserve">
+    <value>Find...</value>
+  </data>
+  <data name="FindReplace" xml:space="preserve">
+    <value>Find and Replace</value>
+  </data>
+  <data name="FormatDoc" xml:space="preserve">
+    <value>Format Document</value>
+  </data>
+  <data name="FormatSelec" xml:space="preserve">
+    <value>Format Selection</value>
+  </data>
+  <data name="GetStarted" xml:space="preserve">
+    <value>Get Started</value>
+  </data>
+  <data name="GIMP" xml:space="preserve">
+    <value>GNU Image Manipulation Program</value>
+  </data>
+  <data name="Git" xml:space="preserve">
+    <value>Git</value>
+  </data>
+  <data name="GoTo" xml:space="preserve">
+    <value>Go To</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Help</value>
+  </data>
+  <data name="InitRepo" xml:space="preserve">
+    <value>Initialize New Repository</value>
+  </data>
+  <data name="InsertGuid" xml:space="preserve">
+    <value>Insert GUID</value>
+  </data>
+  <data name="Json" xml:space="preserve">
+    <value>Json</value>
+  </data>
+  <data name="Krita" xml:space="preserve">
+    <value>Krita</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="Lua" xml:space="preserve">
+    <value>Lua</value>
+  </data>
+  <data name="ManBranch" xml:space="preserve">
+    <value>Manage Branches</value>
+  </data>
+  <data name="MatchCase" xml:space="preserve">
+    <value>Match Case</value>
+  </data>
+  <data name="MatchWord" xml:space="preserve">
+    <value>Match Whole Word</value>
+  </data>
+  <data name="Maya" xml:space="preserve">
+    <value>Maya 3D</value>
+  </data>
+  <data name="MsPaint" xml:space="preserve">
+    <value>Microsoft Paint</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NamePlaceholder" xml:space="preserve">
+    <value>My New Mod</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="NewFile" xml:space="preserve">
+    <value>New File</value>
+  </data>
+  <data name="NewProj" xml:space="preserve">
+    <value>Create a New Project</value>
+  </data>
+  <data name="NewProjDesc" xml:space="preserve">
+    <value>Choose a code template with scaffolding to get started</value>
+  </data>
+  <data name="NewProject" xml:space="preserve">
+    <value>New Project</value>
+  </data>
+  <data name="NewRepo" xml:space="preserve">
+    <value>New Repository</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="NoMatchesFound" xml:space="preserve">
+    <value>No Matches Found</value>
+  </data>
+  <data name="Null" xml:space="preserve">
+    <value>NULL</value>
+  </data>
+  <data name="Of" xml:space="preserve">
+    <value>of</value>
+  </data>
+  <data name="Older" xml:space="preserve">
+    <value>Older</value>
+  </data>
+  <data name="Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="OpenFile" xml:space="preserve">
+    <value>Open File</value>
+  </data>
+  <data name="OpenFolder" xml:space="preserve">
+    <value>Open a Local Folder</value>
+  </data>
+  <data name="OpenFolderDesc" xml:space="preserve">
+    <value>Navigate and edit code within any folder</value>
+  </data>
+  <data name="OpenInBash" xml:space="preserve">
+    <value>Open in Bash</value>
+  </data>
+  <data name="OpenInCmd" xml:space="preserve">
+    <value>Open in Command Prompt</value>
+  </data>
+  <data name="OpenInExplor" xml:space="preserve">
+    <value>Open in File Explorer</value>
+  </data>
+  <data name="OpenProj" xml:space="preserve">
+    <value>Open a Project</value>
+  </data>
+  <data name="OpenProjDesc" xml:space="preserve">
+    <value>Open a local Junk File or Project</value>
+  </data>
+  <data name="OpenRecent" xml:space="preserve">
+    <value>Open Recent</value>
+  </data>
+  <data name="PageBackward" xml:space="preserve">
+    <value>Page Backward</value>
+  </data>
+  <data name="PageForward" xml:space="preserve">
+    <value>Page Forward</value>
+  </data>
+  <data name="Paint3D" xml:space="preserve">
+    <value>Paint 3D</value>
+  </data>
+  <data name="Paintdotnet" xml:space="preserve">
+    <value>Paint.NET</value>
+  </data>
+  <data name="Paste" xml:space="preserve">
+    <value>Paste</value>
+  </data>
+  <data name="PathCreation" xml:space="preserve">
+    <value>Project will be created in</value>
+  </data>
+  <data name="PathPlaceholder" xml:space="preserve">
+    <value>C:\Users\Junk\AppData\Axolot Games\User_123456789\Mods\</value>
+  </data>
+  <data name="ProgramTitle" xml:space="preserve">
+    <value>Mechanic's Junk Tool</value>
+  </data>
+  <data name="ProgramYear" xml:space="preserve">
+    <value>2024</value>
+  </data>
+  <data name="Project" xml:space="preserve">
+    <value>Project</value>
+  </data>
+  <data name="ProjectConfig" xml:space="preserve">
+    <value>Project Configurations</value>
+  </data>
+  <data name="ProjectDescPlaceholder" xml:space="preserve">
+    <value>This is a description for my new amazing mod!</value>
+  </data>
+  <data name="ProjectName" xml:space="preserve">
+    <value>Project Name</value>
+  </data>
+  <data name="Pull" xml:space="preserve">
+    <value>Pull</value>
+  </data>
+  <data name="Push" xml:space="preserve">
+    <value>Push</value>
+  </data>
+  <data name="Rebase" xml:space="preserve">
+    <value>Rebase</value>
+  </data>
+  <data name="Redo" xml:space="preserve">
+    <value>Redo</value>
+  </data>
+  <data name="Release" xml:space="preserve">
+    <value>Release</value>
+  </data>
+  <data name="Rename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="ReplaceAll" xml:space="preserve">
+    <value>Replace All</value>
+  </data>
+  <data name="ReplaceOne" xml:space="preserve">
+    <value>Replace</value>
+  </data>
+  <data name="ReplacePlaceholder" xml:space="preserve">
+    <value>Replace Options</value>
+  </data>
+  <data name="rPath" xml:space="preserve">
+    <value>Relative Path</value>
+  </data>
+  <data name="RunNoDebug" xml:space="preserve">
+    <value>Start Without Debugging</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="SaveAll" xml:space="preserve">
+    <value>Save All</value>
+  </data>
+  <data name="SearchRecent" xml:space="preserve">
+    <value>Search Recent</value>
+  </data>
+  <data name="SearchTemp" xml:space="preserve">
+    <value>Search for Templates</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>Select All</value>
+  </data>
+  <data name="SelectFolder" xml:space="preserve">
+    <value>Select Folder</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="StartupProj" xml:space="preserve">
+    <value>Startup Projects</value>
+  </data>
+  <data name="SteamPg" xml:space="preserve">
+    <value>Steam Page</value>
+  </data>
+  <data name="SteamPreview" xml:space="preserve">
+    <value>Steam Preview</value>
+  </data>
+  <data name="Survival" xml:space="preserve">
+    <value>Survival</value>
+  </data>
+  <data name="Sync" xml:space="preserve">
+    <value>Sync</value>
+  </data>
+  <data name="SyncInfo" xml:space="preserve">
+    <value>Sync (Pull then Push)</value>
+  </data>
+  <data name="TerrainAssets" xml:space="preserve">
+    <value>Terrain Assets</value>
+  </data>
+  <data name="TerrainAssetsDesc" xml:space="preserve">
+    <value>A mod template for creating new or moddifying existing game / terrain assets</value>
+  </data>
+  <data name="Test" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="ThisMonth" xml:space="preserve">
+    <value>This Month</value>
+  </data>
+  <data name="ThisWeek" xml:space="preserve">
+    <value>This Week</value>
+  </data>
+  <data name="TimePlaceholder" xml:space="preserve">
+    <value>12:00 AM</value>
+  </data>
+  <data name="Today" xml:space="preserve">
+    <value>Today</value>
+  </data>
+  <data name="Tools" xml:space="preserve">
+    <value>Tools</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Undo" xml:space="preserve">
+    <value>Undo</value>
+  </data>
+  <data name="UseRegex" xml:space="preserve">
+    <value>Use Regular Expressions</value>
+  </data>
+  <data name="UUID" xml:space="preserve">
+    <value>UUID</value>
+  </data>
+  <data name="Validation" xml:space="preserve">
+    <value>Pass</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="VisualStudioCode" xml:space="preserve">
+    <value>Visual Studio Code</value>
+  </data>
+  <data name="Window" xml:space="preserve">
+    <value>Window</value>
+  </data>
+  <data name="WindowSelector" xml:space="preserve">
+    <value>Select Target Window(s)</value>
+  </data>
+  <data name="Yesterday" xml:space="preserve">
+    <value>Yesterday</value>
+  </data>
+</root>

@@ -1,0 +1,23 @@
+﻿<Window x:Class="ModTool.Windows.ErrorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ModTool.Windows"
+        mc:Ignorable="d"
+        Title="ErrorWindow" Height="450" Width="800">
+    <Grid Background="{DynamicResource ApplicationBackgroundBrush}">
+        <TextBlock Text="Error:" x:Name="ErrorTitle" FontSize="24" VerticalAlignment="Top" TextWrapping="WrapWithOverflow"
+            HorizontalAlignment="Left" Margin="60,20" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+        <Grid Margin="50,90,50,80"> 
+            <Border CornerRadius="5" BorderThickness="2" BorderBrush="Gray" 
+            Background="Black" Opacity="0.8"/>
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled" Margin="10">
+                <TextBox Text="Error" HorizontalContentAlignment="Left" BorderBrush="Transparent" Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                    VerticalContentAlignment="Top" Background="Transparent" FontSize="20" TextWrapping="WrapWithOverflow" x:Name="ErrorText"/>
+            </ScrollViewer>
+        </Grid>
+        <Button VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="30" Content="OK" Background="Gray"
+            Foreground="{DynamicResource TextFillColorPrimaryBrush}" Width="200" Click="Button_Click"/>
+    </Grid>
+</Window>

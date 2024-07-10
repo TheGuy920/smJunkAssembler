@@ -1,0 +1,265 @@
+﻿<Page
+    x:Class="ModTool.Pages.SearchPanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:lang="clr-namespace:ModTool.Languages"
+    xmlns:local="clr-namespace:ModTool.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="SearchPanel"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <ControlTemplate x:Key="SearchBoxControl">
+            <Border
+                Width="300"
+                Margin="0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Background="{DynamicResource ApplicationBackgroundBrush}">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Border
+                        Grid.RowSpan="3"
+                        Margin="-10"
+                        Background="#2A000000"
+                        BorderBrush="#66000000"
+                        BorderThickness="1,0,0,2"
+                        CornerRadius="3"
+                        Opacity="1" />
+                    <Grid Grid.Row="0" Grid.Column="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Border
+                            Grid.ColumnSpan="1"
+                            Background="White"
+                            CornerRadius="1"
+                            Opacity="0.1" />
+                        <ui:TextBox
+                            MaxWidth="300"
+                            Padding="0,0,15,0"
+                            AcceptsReturn="True"
+                            AcceptsTab="True"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                            PlaceholderEnabled="True"
+                            PlaceholderText="{x:Static lang:Strings.FindPlaceHolder}"
+                            Style="{x:Null}"
+                            TextChanged="FindTextChanged"
+                            TextWrapping="Wrap" />
+                        <ui:SymbolIcon
+                            Grid.Column="0"
+                            Margin="2,0"
+                            HorizontalAlignment="Right"
+                            Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                            Symbol="Search24" />
+                        <Grid Grid.Column="1">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <ui:Button
+                                    Grid.Column="0"
+                                    Margin="5,0"
+                                    Padding="2,0"
+                                    VerticalAlignment="Stretch"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    Click="FindNextClick"
+                                    CornerRadius="0">
+                                    <ui:SymbolIcon
+                                        x:Name="FindNextIcon"
+                                        Width="{Binding ElementName=FindNextIcon, Path=ActualHeight}"
+                                        Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                                        Symbol="ArrowRight32" />
+                                </ui:Button>
+                                <ui:Button
+                                    Grid.Column="1"
+                                    Padding="2,0"
+                                    VerticalAlignment="Stretch"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    Click="CloseClick"
+                                    CornerRadius="0">
+                                    <ui:SymbolIcon Foreground="IndianRed" Symbol="Dismiss24" />
+                                </ui:Button>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    <Grid Grid.Row="1" Margin="0,5,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <ui:Button
+                            x:Name="MatchCaseButton"
+                            Grid.Column="0"
+                            Margin="0,0,2,0"
+                            Padding="5,2"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            Click="ToggleCaseClick"
+                            CornerRadius="1"
+                            ToolTip="{x:Static lang:Strings.MatchCase}">
+                            <ui:SymbolIcon Symbol="TextCaseTitle24" />
+                        </ui:Button>
+                        <ui:Button
+                            Grid.Column="1"
+                            Height="{Binding ElementName=MatchCaseButton, Path=ActualHeight}"
+                            Margin="2,0"
+                            Padding="5,0"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            Click="ToggleWordClick"
+                            CornerRadius="1"
+                            ToolTip="{x:Static lang:Strings.MatchWord}">
+                            <Grid>
+                                <Border
+                                    Height="1"
+                                    Margin="1,1"
+                                    VerticalAlignment="Top"
+                                    Background="{DynamicResource TextFillColorPrimaryBrush}"
+                                    CornerRadius="0.5" />
+                                <ui:SymbolIcon
+                                    ClipToBounds="True"
+                                    FontWeight="ExtraLight"
+                                    Symbol="TextCaseLowercase20" />
+                                <Border
+                                    Height="1"
+                                    Margin="1,1"
+                                    VerticalAlignment="Bottom"
+                                    Background="{DynamicResource TextFillColorPrimaryBrush}"
+                                    CornerRadius="0.5" />
+                            </Grid>
+                        </ui:Button>
+                        <ui:Button
+                            Grid.Column="2"
+                            Margin="2,0"
+                            Padding="5,2"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            Click="ToggleRegexClick"
+                            CornerRadius="1"
+                            ToolTip="{x:Static lang:Strings.UseRegex}">
+                            <ui:SymbolIcon Symbol="TextPeriodAsterisk20" />
+                        </ui:Button>
+                        <TextBlock
+                            x:Name="MatchCounter"
+                            Grid.Column="3"
+                            Margin="10,0"
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                            Text="{x:Static lang:Strings.NoMatchesFound}"
+                            TextAlignment="Right"
+                            Visibility="Visible" />
+                    </Grid>
+                    <Grid
+                        x:Name="ReplaceControl"
+                        Grid.Row="2"
+                        Margin="0,5,0,0"
+                        Visibility="Visible">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Row="0" Grid.Column="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Border
+                                Grid.ColumnSpan="1"
+                                Background="White"
+                                CornerRadius="1"
+                                Opacity="0.1" />
+                            <ui:TextBox
+                                AcceptsReturn="True"
+                                AcceptsTab="True"
+                                Background="Transparent"
+                                BorderBrush="Transparent"
+                                Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                                PlaceholderEnabled="True"
+                                PlaceholderText="{x:Static lang:Strings.FindPlaceHolder}"
+                                Style="{x:Null}"
+                                TextWrapping="Wrap" />
+                        </Grid>
+                        <ui:Button
+                            Grid.Column="1"
+                            Margin="2,0"
+                            Padding="0,2"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            Click="ReplaceClick"
+                            CornerRadius="1"
+                            ToolTip="{x:Static lang:Strings.ReplaceOne}">
+                            <Grid>
+                                <Viewbox
+                                    Width="12"
+                                    Height="13"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Bottom">
+                                    <ui:SymbolIcon
+                                        FontFamily="{StaticResource SegoeFluentIcons}"
+                                        FontWeight="Thin"
+                                        Symbol="DocumentText24" />
+                                </Viewbox>
+                                <ui:SymbolIcon
+                                    Margin="0,0,10,0"
+                                    FontSize="16"
+                                    Symbol="ArrowTurnDownRight20" />
+                            </Grid>
+                        </ui:Button>
+                        <ui:Button
+                            Grid.Column="2"
+                            Margin="2,0"
+                            Padding="0,2"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            Click="ReplaceAllClick"
+                            CornerRadius="1"
+                            FontSize="16"
+                            ToolTip="{x:Static lang:Strings.ReplaceAll}">
+                            <Grid>
+                                <Viewbox
+                                    Width="12"
+                                    Height="13"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Bottom">
+                                    <ui:SymbolIcon
+                                        FontFamily="{StaticResource SegoeFluentIcons}"
+                                        FontWeight="Thin"
+                                        Symbol="LayerDiagonal20" />
+                                </Viewbox>
+                                <ui:SymbolIcon
+                                    Margin="0,0,10,0"
+                                    FontSize="16"
+                                    SnapsToDevicePixels="True"
+                                    Symbol="ArrowTurnDownRight20"
+                                    TextOptions.TextFormattingMode="Ideal"
+                                    TextOptions.TextHintingMode="Fixed"
+                                    TextOptions.TextRenderingMode="ClearType" />
+                            </Grid>
+                        </ui:Button>
+                    </Grid>
+                </Grid>
+            </Border>
+        </ControlTemplate>
+    </Page.Resources>
+    <Control
+        MaxWidth="300"
+        MaxHeight="700"
+        HorizontalAlignment="Right"
+        VerticalAlignment="Top"
+        Template="{StaticResource ResourceKey=SearchBoxControl}" />
+</Page>

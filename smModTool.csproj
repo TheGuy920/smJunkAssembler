@@ -1,0 +1,164 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<UseWPF>true</UseWPF>
+		<Platforms>AnyCPU;x64</Platforms>
+		<StartupObject>ModTool.App</StartupObject>
+		<LangVersion>preview</LangVersion>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<EnablePreviewFeatures>true</EnablePreviewFeatures>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<RootNamespace>ModTool</RootNamespace>
+		<Configurations>Debug;Release</Configurations>
+		<ApplicationIcon>AppMedia\gui_icon_bearing.ico</ApplicationIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Remove="packages\**" />
+		<EmbeddedResource Remove="packages\**" />
+		<None Remove="packages\**" />
+		<Page Remove="packages\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="AppMedia\gui_icon_bearing.png" />
+		<None Remove="Fonts\MotivaSans-Black.ttf" />
+		<None Remove="Fonts\MotivaSans-Bold.ttf" />
+		<None Remove="Fonts\MotivaSans-BoldItalic.ttf" />
+		<None Remove="Fonts\MotivaSans-Light.ttf" />
+		<None Remove="Fonts\MotivaSans-LightItalic.ttf" />
+		<None Remove="Fonts\MotivaSans-Medium.ttf" />
+		<None Remove="Fonts\MotivaSans-Regular.ttf" />
+		<None Remove="Fonts\MotivaSans-RegularItalic.ttf" />
+		<None Remove="Fonts\MotivaSans-Thin.ttf" />
+		<None Remove="Fonts\Segoe Fluent Icons.ttf" />
+		<None Remove="Fonts\Segoe MDL2 Assets.ttf" />
+		<None Remove="ScrapMechanic\CustomXML\XmlRendering\Json.xshd" />
+		<None Remove="ScrapMechanic\Json\MyGUI_Trace.json" />
+		<None Remove="Library.json" />
+		<None Remove="ScrapMechanic\CustomXML\XmlRendering\HightlightingRules.xshd" />
+		<None Remove="ScrapMechanic\Scrap Mechanic Media\Fonts\ManualFontDataInput.xml" />
+		<None Remove="ScrapMechanic\Scrap Mechanic Media\Language\English\Fonts.xml" />
+		<None Remove="ScrapMechanic\Scrap Mechanic Media\Language\English\InterfaceTags.txt" />
+		<None Remove="User\Templates\preview.jpg" />
+		<None Remove="User\Templates\smCategoryTemplates.json" />
+		<None Remove="User\Templates\smNewFileTemplates.json" />
+		<None Remove="Windows\bearing_bigger_nooutline.gif" />
+		<None Remove="Windows\gui_icon_bearing.png" />
+		<None Remove="Windows\output-onlinegiftools.gif" />
+		<None Remove="Windows\spin_bearing.gif" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<COMReference Include="Shell32">
+			<WrapperTool>tlbimp</WrapperTool>
+			<VersionMinor>0</VersionMinor>
+			<VersionMajor>1</VersionMajor>
+			<Guid>50a7e9b0-70ef-11d1-b75a-00a0c90564fe</Guid>
+			<Lcid>0</Lcid>
+			<Isolated>false</Isolated>
+			<EmbedInteropTypes>true</EmbedInteropTypes>
+		</COMReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="AppMedia\gui_icon_bearing.ico" />
+		<Content Include="ScrapMechanic\Scrap Mechanic Media\Language\English\.vscode\settings.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Resource Include="AppMedia\gui_icon_bearing.png" />
+		<Resource Include="Windows\gui_icon_bearing.png" />
+		<EmbeddedResource Include="Fonts\MotivaSans-Black.ttf" />
+		<EmbeddedResource Include="Fonts\MotivaSans-Bold.ttf" />
+		<EmbeddedResource Include="Fonts\MotivaSans-BoldItalic.ttf" />
+		<EmbeddedResource Include="Fonts\MotivaSans-Light.ttf" />
+		<EmbeddedResource Include="Fonts\MotivaSans-LightItalic.ttf" />
+		<EmbeddedResource Include="Fonts\MotivaSans-Medium.ttf" />
+		<EmbeddedResource Include="Fonts\MotivaSans-Regular.ttf" />
+		<EmbeddedResource Include="Fonts\MotivaSans-RegularItalic.ttf" />
+		<EmbeddedResource Include="Fonts\MotivaSans-Thin.ttf" />
+		<EmbeddedResource Include="Fonts\Segoe Fluent Icons.ttf" />
+		<EmbeddedResource Include="Fonts\Segoe MDL2 Assets.ttf" />
+		<EmbeddedResource Include="ScrapMechanic\CustomXML\XmlRendering\Json.xshd" />
+		<EmbeddedResource Include="ScrapMechanic\Json\MyGUI_Trace.json" />
+		<EmbeddedResource Include="Library.json" />
+		<EmbeddedResource Include="ScrapMechanic\Scrap Mechanic Media\Fonts\ManualFontDataInput.xml" />
+		<EmbeddedResource Include="ScrapMechanic\Scrap Mechanic Media\Language\English\Fonts.xml" />
+		<EmbeddedResource Include="ScrapMechanic\Scrap Mechanic Media\Language\English\InterfaceTags.txt" />
+		<EmbeddedResource Include="User\Templates\preview.jpg" />
+		<EmbeddedResource Include="User\Templates\smCategoryTemplates.json" />
+		<EmbeddedResource Include="User\Templates\smNewFileTemplates.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AhoCorasick" Version="2.0.258" />
+		<PackageReference Include="ConsoleControl.WPF" Version="1.3.0" />
+		<PackageReference Include="DiffPlex" Version="1.7.2" />
+		<PackageReference Include="Dirkster.AvalonDock" Version="4.72.1" />
+		<PackageReference Include="Dirkster.AvalonDock.Themes.Aero" Version="4.72.1" />
+		<PackageReference Include="Dirkster.AvalonDock.Themes.Expression" Version="4.72.1" />
+		<PackageReference Include="Dirkster.AvalonDock.Themes.Metro" Version="4.72.1" />
+		<PackageReference Include="Dirkster.AvalonDock.Themes.VS2013" Version="4.72.1" />
+		<PackageReference Include="DotNetProjects.Extended.Wpf.Toolkit" Version="5.0.115" />
+		<PackageReference Include="Enterwell.Clients.Wpf.Notifications" Version="1.4.2" />
+		<PackageReference Include="FFME.Windows" Version="4.4.350" />
+		<PackageReference Include="GeminiWpf" Version="0.7.0" />
+		<PackageReference Include="HandyControl" Version="3.5.1" />
+		<PackageReference Include="InteractiveDataDisplay.WPF" Version="1.0.0" />
+		<PackageReference Include="LoadingIndicators.WPF" Version="0.0.1" />
+		<PackageReference Include="Microsoft.AppCenter" Version="5.0.5" />
+		<PackageReference Include="Microsoft.AppCenter.Analytics" Version="5.0.5" />
+		<PackageReference Include="Microsoft.AppCenter.Crashes" Version="5.0.5" />
+		<PackageReference Include="Microsoft.ApplicationInsights" Version="2.22.0">
+			<TreatAsUsed>true</TreatAsUsed>
+		</PackageReference>
+		<PackageReference Include="Ookii.Dialogs.Wpf" Version="5.0.1" />
+		<PackageReference Include="SixLabors.ImageSharp" Version="3.1.4" />
+		<PackageReference Include="SteamUtility" Version="1.0.5.9" />
+		<PackageReference Include="Steamworks.NET" Version="20.2.0" />
+		<PackageReference Include="System.Drawing.Common" Version="8.0.4" />
+		<PackageReference Include="WPF-UI" Version="3.0.4" />
+		<PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
+		<PackageReference Include="WPFMediaKit" Version="2.3.0" />
+		<PackageReference Include="XamlMath.Shared" Version="2.1.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="ScrapMechanic\CustomXML\XmlRendering\HightlightingRules.xshd" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Page Include="App.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\WindowWeasel\WindowWeasel\WindowWeasel.csproj" />
+		<ProjectReference Include="E:\Documents\GitHub\AvalonEdit\ICSharpCode.AvalonEdit\ICSharpCode.AvalonEdit.csproj" />
+		<ProjectReference Include="F:\GithubRepos\MdXaml\MdXaml\MdXaml.csproj" />
+		<ProjectReference Include="F:\GithubRepos\WpfDesigner\WpfDesign.Designer\Project\WpfDesign.Designer.csproj" />
+		<ProjectReference Include="F:\GithubRepos\WpfDesigner\WpfDesign.XamlDom\Project\WpfDesign.XamlDom.csproj" />
+		<ProjectReference Include="F:\GithubRepos\WpfDesigner\WpfDesign\Project\WpfDesign.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="ScrapMechanic\CustomXML\XmlStructures\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Languages\Strings.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Strings.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Languages\Strings.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>Strings.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+
+</Project>

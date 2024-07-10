@@ -1,0 +1,83 @@
+ [
+    {
+        "name": "Tool List",
+        "description": "A list of tools for the character to use.",
+        "filter": "tool,json",
+        "fileName": "tools.toolset",
+        "extension": ".toolset",
+        "folder": "Tools",
+        "icon": "List24"
+    },
+    {
+        "name": "Parts List",
+        "description": "A list of parts: scripted, or not scripted.",
+        "filter": "part,json",
+        "fileName": "my_parts.json",
+        "extension": ".json",
+        "folder": "Objects/DataBase/Parts",
+        "icon": "List24"
+    },
+    {
+        "name": "Effect List",
+        "description": "A list of effects.",
+        "filter": "effect,json",
+        "fileName": "effect.json",
+        "extension": ".json",
+        "folder": "Effects/Database",
+        "icon": "List24"
+    },
+    {
+        "name": "Clutter List",
+        "description": "A list of terrain clutter assets: rocks, trees, etc.",
+        "filter": "terrain,clutter,asset,json",
+        "fileName": "effect.json",
+        "extension": ".json",
+        "folder": "Terrain/Clutter/Database",
+        "icon": "List24"
+    },
+    {
+        "name": "Track",
+        "description": "idfk, a track i guess",
+        "filter": "track,asset,terrain,json",
+        "fileName": "track.json",
+        "extension": ".json",
+        "folder": "Track",
+        "icon": "List24"
+    },
+    {
+        "name": "Projectile List",
+        "description": "A list of projectiles for shooting and projecting and stuff!",
+        "filter": "projectile,json",
+        "fileName": "projectiles.json",
+        "extension": ".json",
+        "folder": "Projectiles/Database/",
+        "icon": "List24"
+    },
+    {
+        "name": "Blocks List",
+        "description": "A list of blocks for blocking and stuff!",
+        "filter": "block,json",
+        "fileName": "my_blocks.json",
+        "extension": ".json",
+        "folder": "Objects/Database/Blocks/",
+        "icon": "List24"
+    },
+    {
+        "name": "Asset List",
+        "description": "A list of game assets for asseting and stuff!",
+        "filter": "asset,json",
+        "fileName": "assets.json",
+        "extension": ".json",
+        "folder": "Assets",
+        "icon": "List24"
+    },
+    {
+        "name": "Lua File",
+        "description": "A file of lua for luaing and stuff!",
+        "filter": "lua,script",
+        "fileName": "MyClass.lua",
+        "extension": ".lua",
+        "folder": "Scripts",
+        "icon": "Document24"
+    }
+]

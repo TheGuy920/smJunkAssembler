@@ -1,0 +1,58 @@
+ [
+    {
+        "name": "Script",
+        "filterTag": "lua,script"
+    },
+    {
+        "name": "Json",
+        "filterTag": "json"
+    },
+    {
+        "name": "Tools",
+        "filterTag": "tool"
+    },
+    {
+        "name": "Assets",
+        "filterTag": "asset"
+    },
+    {
+        "name": "Characters",
+        "filterTag": "character"
+    },
+    {
+        "name": "Effects",
+        "filterTag": "effect"
+    },
+    {
+        "name": "Ground Materials",
+        "filterTag": "ground,material"
+    },
+    {
+        "name": "Harvestables",
+        "filterTag": "harvestable"
+    },
+    {
+        "name": "Kinematics",
+        "filterTag": "kinematic"
+    },
+    {
+        "name": "Shapes",
+        "filterTag": "shape"
+    },
+    {
+        "name": "Blocks",
+        "filterTag": "block"
+    },
+    {
+        "name": "GUI",
+        "filterTag": "gui,layout"
+    },
+    {
+        "name": "XML",
+        "filterTag": "layout,xml"
+    },
+    {
+        "name": "Terrain",
+        "filterTag": "terrain,ground,asset,tile"
+    }
+]

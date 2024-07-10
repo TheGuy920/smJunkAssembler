@@ -1,0 +1,54 @@
+﻿<Page x:Class="ModTool.Pages.LayoutEditorDesigner"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:XmlTextEditor="http://icsharpcode.net/sharpdevelop/avalonedit"
+      mc:Ignorable="d" 
+      d:DesignHeight="800" d:DesignWidth="1200"
+      Title="MainEditor" Loaded="PageLoaded">
+    <Grid PreviewMouseUp="EntireAppPreviewMouseUp" MouseLeave="WindowMouseLeave" MouseEnter="WindowMouseEnter">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="UpperWorkspace" Grid.Row="2" Margin="0,0,0,15" VerticalAlignment="Stretch" MouseDown="UpperWorkspace_MouseDown">
+            <Grid x:Name="ViewBox" Background="Transparent" Grid.Column="0" Margin="5,5,10,0"
+                  MouseLeave="ViewBoxMouseLeave" MouseEnter="ViewBoxMouseEnter"
+              PreviewMouseWheel="GridPreviewMouseWheel" ClipToBounds="True" MouseDown="GridMouseDown" PreviewKeyDown="GridPreviewKeyDown">
+                <Rectangle Canvas.Left="10" Canvas.Top="10">
+                    <Rectangle.Fill>
+                        <DrawingBrush Stretch="None" TileMode="Tile" Viewport="0,0,8,8" ViewportUnits="Absolute">
+                            <!-- a drawing of 4 checkerboard tiles -->
+                            <DrawingBrush.Drawing>
+                                <DrawingGroup>
+                                    <!-- checkerboard background -->
+                                    <GeometryDrawing Brush="Transparent">
+                                        <GeometryDrawing.Geometry>
+                                            <RectangleGeometry Rect="0,0,15,15" />
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                    <!-- two checkerboard foreground tiles -->
+                                    <GeometryDrawing Brush="#4f4a4a">
+                                        <GeometryDrawing.Geometry>
+                                            <GeometryGroup>
+                                                <RectangleGeometry Rect="0,0,5,5" />
+                                                <RectangleGeometry Rect="4,4,0,0" />
+                                            </GeometryGroup>
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup>
+                            </DrawingBrush.Drawing>
+                        </DrawingBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Canvas x:Name="WorkspaceCanvas" Width="1100" Height="710" Margin="40,0,0,0"
+                        HorizontalAlignment="Left" VerticalAlignment="Center" Background="Transparent"/>
+                <TextBlock x:Name="ZoomDisplay" VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="White" FontSize="25px"
+                           TextAlignment="Center" Margin="0,0,0,-5" Padding="5,0" FontFamily="Bahnschrift Light" Text="1x" />
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>
