@@ -1,21 +1,17 @@
 ﻿using CustomExtensions;
-using ModTool.User.Project;
-using Newtonsoft.Json.Linq;
+using ModTool.ScrapMechanic.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using Wpf.Ui.Controls;
-using ModTool.User.Templates;
+using static ModTool.User.Templates.Description;
 using Button = Wpf.Ui.Controls.Button;
 using TextBlock = System.Windows.Controls.TextBlock;
-using static ModTool.User.Templates.Description;
 
 namespace ModTool.Windows.Startup
 {
@@ -90,9 +86,9 @@ namespace ModTool.Windows.Startup
             foreach (var item in elements)
             {
                 var desc = File.ReadAllText(Path.Combine(item.Key, "description.json"));
-                JObject jdesc = Newtonsoft.Json.JsonConvert.DeserializeObject<JObject>(desc);
+                var jdesc = JsonParser.ParseJObject(desc);
 
-                ValidModType type = jdesc["type"].ToStringLowerInvariant() switch
+                ValidModType type = jdesc["type"].GetString().ToStringLowerInvariant() switch
                 {
                     "blocks and parts" => ValidModType.BlocksAndParts,
                     "custom game" => ValidModType.CustomGame,

@@ -5,24 +5,24 @@ using ICSharpCode.AvalonEdit;
 using ModTool.CustomXML;
 using ModTool.Font;
 using ModTool.Languages;
+using ModTool.ScrapMechanic.Json;
 using ModTool.User;
 using ModTool.User.Controls;
 using ModTool.User.Controls.Overview;
 using ModTool.Util;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.Encodings.Web;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 using Wpf.Ui.Controls;
 using Button = Wpf.Ui.Controls.Button;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
@@ -130,8 +130,8 @@ namespace ModTool.Windows
                 this.ProjectDirectory = new DirectoryInfo(baseDir);
 
                 var desc = File.ReadAllText(Path.Combine(baseDir, "description.json"));
-                JObject jdesc = Newtonsoft.Json.JsonConvert.DeserializeObject<JObject>(desc);
-                string name = jdesc["name"].ToString();
+                var jdesc = JsonParser.ParseJObject(desc);
+                string name = jdesc["name"].GetString();
 
                 this.Dispatcher.Invoke(() =>
                 {
@@ -178,7 +178,7 @@ namespace ModTool.Windows
 
                 await this.Dispatcher.BeginInvoke(() =>
                     this.ActiveDocumentPane.Children.Add(
-                        DefaultPageMaker.CreateDebug(this.ProjectDirectory)
+                        DefaultPageMaker.CreateDebug(this.ProjectDirectory, this.OpenFile)
                 ));
                 /*
                 await this.Dispatcher.BeginInvoke(() =>
@@ -205,12 +205,12 @@ namespace ModTool.Windows
                     this.ActiveDocumentPane.Children.Add(
                         DefaultPageMaker.CreateMayaWindow(this.ProjectDirectory)
                 ));
-                */
+                
                 await this.Dispatcher.BeginInvoke(() =>
                     this.ActiveDocumentPane.Children.Add(
                         DefaultPageMaker.CreateShitGameWindow(this.ProjectDirectory)
                 ));
-                /*
+                
                 await this.Dispatcher.BeginInvoke(() =>
                     this.ActiveDocumentPane.Children.Add(
                         DefaultPageMaker.CreateTestWindow(this.ProjectDirectory)
@@ -324,6 +324,18 @@ namespace ModTool.Windows
             return d;
         }
 
+        private static readonly JsonSerializerOptions jOptions = new() 
+        { 
+            WriteIndented = true,
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+        };
+
+        private static readonly JsonWriterOptions jsonWriter = new() 
+        { 
+            Indented = true,
+        };
+
+
         private LayoutDocument OpenJsonFile(string relpath)
         {
             string fname = Path.GetFileName(relpath);
@@ -331,25 +343,13 @@ namespace ModTool.Windows
 
             try
             {
-                JObject config = Newtonsoft.Json.JsonConvert.DeserializeObject<JObject>(textbody);
-                using MemoryStream memoryStream = new();
-                using StreamWriter streamWriter = new(memoryStream);
-                using JsonTextWriter jsonWriter = new(streamWriter)
-                {
-                    Formatting = Newtonsoft.Json.Formatting.Indented,
-                    Indentation = 4,
-                    IndentChar = ' ',
-                };
-
-                JsonSerializer serializer = new();
-                serializer.Serialize(jsonWriter, config);
-                jsonWriter.Flush();
-                memoryStream.Position = 0; // Reset the position to the start of the stream
-                textbody = new StreamReader(memoryStream).ReadToEnd();
+                var config = JsonDocument.Parse(textbody);
+                // Do something for customizing json indentation
+                textbody = JsonSerializer.Serialize(config.RootElement, jOptions);
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e);
+                Trace.WriteLine(e);
             }
 
             bool ready = false;

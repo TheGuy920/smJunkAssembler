@@ -1,21 +1,9 @@
-﻿using CustomExtensions;
-using ICSharpCode.AvalonEdit;
+﻿using ICSharpCode.AvalonEdit;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Shapes;
-using System.Windows.Threading;
 using System.Xml.Linq;
 
 namespace ModTool.CustomXML

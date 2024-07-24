@@ -1,11 +1,5 @@
 ﻿using CustomExtensions;
-using Gu.Wpf.Localization;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ModTool.User.Templates
 {

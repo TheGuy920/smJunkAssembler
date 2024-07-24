@@ -243,6 +243,9 @@
   <data name="Json" xml:space="preserve">
     <value>Json</value>
   </data>
+  <data name="JsonRefs" xml:space="preserve">
+    <value>Json References</value>
+  </data>
   <data name="Krita" xml:space="preserve">
     <value>Krita</value>
   </data>
@@ -251,6 +254,9 @@
   </data>
   <data name="Lua" xml:space="preserve">
     <value>Lua</value>
+  </data>
+  <data name="LuaRefs" xml:space="preserve">
+    <value>Lua References</value>
   </data>
   <data name="ManBranch" xml:space="preserve">
     <value>Manage Branches</value>
@@ -481,7 +487,7 @@
     <value>Use Regular Expressions</value>
   </data>
   <data name="UUID" xml:space="preserve">
-    <value>UUID</value>
+    <value>Uuid</value>
   </data>
   <data name="Validation" xml:space="preserve">
     <value>Pass</value>

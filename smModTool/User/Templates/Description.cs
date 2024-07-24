@@ -1,10 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace ModTool.User.Templates
 {
@@ -19,64 +15,36 @@ namespace ModTool.User.Templates
 
         internal record Default
         {
-            [JsonProperty("name")]
+            [JsonPropertyName("name")]
             public string Name { get; init; }
 
-            [JsonProperty("description")]
+            [JsonPropertyName("description")]
             public string Description { get; init; }
 
-            [JsonProperty("localId")]
+            [JsonPropertyName("localId")]
             public Guid Uuid { get; init; }
 
-            [JsonProperty("type")]
+            [JsonPropertyName("type")]
             public ValidModType Type { get; init; }
 
-            [JsonProperty("version")]
+            [JsonPropertyName("version")]
             public int Version { get; init; }
 
-            [JsonProperty("custom_icons")]
+            [JsonPropertyName("custom_icons")]
             public bool CustomIcons { get; init; }
 
-            [JsonProperty("allow_add_mods")]
+            [JsonPropertyName("allow_add_mods")]
             public bool AllowAddMods { get; init; }
 
+            [JsonIgnore]
+            private static readonly JsonSerializerOptions jsonSerializerOptions = new()
+            {
+                // Converters = { new CustomEnumConverter() },
+                WriteIndented = true
+            };
+
             public string ToJson()
-            {
-                var settings = new JsonSerializerSettings
-                {
-                    NullValueHandling = NullValueHandling.Ignore,
-                    Converters = new List<JsonConverter> { new CustomEnumConverter() },
-                    Formatting = Formatting.Indented
-                };
-
-                return JsonConvert.SerializeObject(this, settings);
-            }
-        }
-
-        // Custom JsonConverter for enum
-        private partial class CustomEnumConverter : JsonConverter
-        {
-            public override bool CanConvert(Type objectType)
-            {
-                return objectType.IsEnum;
-            }
-
-            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-            {
-                if (value != null)
-                {
-                    string enumString = UppercaseReg().Replace(value.ToString(), "$1 $2").Replace("And", "and");
-                    writer.WriteValue(enumString);
-                }
-            }
-
-            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-            {
-                throw new NotImplementedException();
-            }
-
-            [GeneratedRegex("([a-z])([A-Z])")]
-            private static partial Regex UppercaseReg();
+                => JsonSerializer.Serialize(this, jsonSerializerOptions);
         }
     }
 }

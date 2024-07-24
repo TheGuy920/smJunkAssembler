@@ -1,23 +1,14 @@
 ﻿using CustomExtensions;
-using ICSharpCode.AvalonEdit.Folding;
-using ICSharpCode.AvalonEdit.Search;
-using Newtonsoft.Json.Linq;
+using Microsoft.Win32;
+using ModTool.CustomXML;
 using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using Path = System.IO.Path;
-using System.Windows.Threading;
-using System.Xml;
-using Microsoft.Win32;
-using System.Text;
-using ModTool.CustomXML;
-using System.Diagnostics;
-using System.Collections.Generic;
-using DiffPlex.DiffBuilder.Model;
 
 namespace ModTool.Pages
 {

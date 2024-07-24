@@ -1,41 +1,35 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 using Wpf.Ui.Controls;
 
 namespace ModTool.User.Templates
 {
     public record NewFileItemTemplate
     {
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; init; }
 
-        [JsonProperty("icon")]
+        [JsonPropertyName("icon")]
         public SymbolIcon Icon { get; init; }
 
-        [JsonProperty("filter")]
+        [JsonPropertyName("filter")]
         public string FilterTag { get; init; }
 
-        [JsonProperty("description")]
+        [JsonPropertyName("description")]
         public string Description { get; init; }
 
-        [JsonProperty("folder")]
+        [JsonPropertyName("folder")]
         public string RelativeDirectory { get; init; }
 
-        [JsonProperty("fileName")]
+        [JsonPropertyName("fileName")]
         public string SampleFileName { get; init; }
 
-        [JsonProperty("extension")]
+        [JsonPropertyName("extension")]
         public string FileExtension { get; init; }
 
-        [JsonProperty("content")]
+        [JsonPropertyName("content")]
         public string FileContent { get; init; }
     }
-
+    /*
     public class IconTypeConverter : JsonConverter
     {
         public override bool CanConvert(Type objectType)
@@ -64,4 +58,5 @@ namespace ModTool.User.Templates
                 writer.WriteValue(value.ToString());
         }
     }
+    */
 }

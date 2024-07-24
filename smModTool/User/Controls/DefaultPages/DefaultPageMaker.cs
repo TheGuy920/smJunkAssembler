@@ -1,19 +1,17 @@
 ﻿using AvalonDock.Layout;
-using MahApps.Metro.Controls;
 using ModTool.Languages;
 using ModTool.User.Controls.DefaultPages;
 using ModTool.Util;
-using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using WindowWeasel;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ModTool.User.Controls.Overview
 {
@@ -21,10 +19,15 @@ namespace ModTool.User.Controls.Overview
     {
         public static LayoutDocument CreateSteamPreview(DirectoryInfo dir)
         {
-            JObject json = JObject.Parse(File.ReadAllText(Path.Combine(dir.FullName, "description.json")));
-            string title = json["name"].Value<string>();
+            var json = JsonDocument.Parse(
+                File.ReadAllText(
+                    Path.Combine(dir.FullName, "description.json")
+                ))
+                .RootElement.EnumerateObject()
+                .ToDictionary(jp => jp.Name, jp => jp.Value);
+            string title = json["name"].GetString();
             
-            FlowDocument document = FlowdocumentGenerator.GenerateFlowDocument(json["description"].Value<string>());
+            FlowDocument document = FlowdocumentGenerator.GenerateFlowDocument(json["description"].GetString());
             SteamPage page = new(dir)
             {
                 Background = Brushes.Transparent,
@@ -87,12 +90,12 @@ namespace ModTool.User.Controls.Overview
             };
         }
 
-        public static LayoutDocument CreateDebug(DirectoryInfo dir)
+        public static LayoutDocument CreateDebug(DirectoryInfo dir, Action<string> openFile)
         {
             return new LayoutDocument()
             {
                 Title = Strings.Debug,
-                Content = PageWrapper.New<DebugPage>([dir]),
+                Content = PageWrapper.New<DebugPage>([dir, openFile]),
                 IsSelected = true,
             };
         }

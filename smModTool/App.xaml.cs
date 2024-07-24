@@ -23,10 +23,6 @@ namespace ModTool
         {
             this.Exit += (s, e) => ExitEvent?.Invoke(s, null);
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
-#if !DEBUG
-            Microsoft.AppCenter.AppCenter.Start("c435636c-e27c-406e-bc4f-f4da85fae445",
-                  typeof(Microsoft.AppCenter.Analytics.Analytics), typeof(Microsoft.AppCenter.Crashes.Crashes));
-#endif
             this.LoadSteamFonts();
 
             // Create a new style for TextBlock

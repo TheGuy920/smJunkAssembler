@@ -439,6 +439,15 @@ namespace ModTool.Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Json References.
+        /// </summary>
+        public static string JsonRefs {
+            get {
+                return ResourceManager.GetString("JsonRefs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Krita.
         /// </summary>
         public static string Krita {
@@ -462,6 +471,15 @@ namespace ModTool.Languages {
         public static string Lua {
             get {
                 return ResourceManager.GetString("Lua", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lua References.
+        /// </summary>
+        public static string LuaRefs {
+            get {
+                return ResourceManager.GetString("LuaRefs", resourceCulture);
             }
         }
         
@@ -1150,7 +1168,7 @@ namespace ModTool.Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to UUID.
+        ///   Looks up a localized string similar to Uuid.
         /// </summary>
         public static string UUID {
             get {

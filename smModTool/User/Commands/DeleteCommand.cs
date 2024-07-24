@@ -1,13 +1,6 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.FileIO;
 using Shell32;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using Microsoft.VisualBasic.FileIO;
-using SixLabors.ImageSharp.ColorSpaces;
+using System;
 using System.IO;
 
 namespace ModTool.User.Commands

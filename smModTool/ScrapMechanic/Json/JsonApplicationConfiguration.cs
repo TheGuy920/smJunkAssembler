@@ -1,24 +1,13 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="JsonApplicationConfiguration.cs" company="Visual JSON Editor">
-//     Copyright (c) Rico Suter. All rights reserved.
-// </copyright>
-// <license>http://visualjsoneditor.codeplex.com/license</license>
-// <author>Rico Suter, mail@rsuter.com</author>
-//-----------------------------------------------------------------------
-
-using System;
+﻿using System;
 using System.IO;
 using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-//using NJsonSchema;
-
+using System.Text.Json;
 namespace ModTool.Utilities
 {
     /// <summary>Provides methods to load and save the application configuration. </summary>
     public static class JsonApplicationConfiguration
     {
+        private static readonly JsonSerializerOptions JsonSerializerOptions = new() { WriteIndented = true };
         private const string ConfigExtension = ".json";
         private const string SchemaExtension = ".schema.json";
 
@@ -40,7 +29,7 @@ namespace ModTool.Utilities
             if (!File.Exists(configPath))
                 return CreateDefaultConfigurationFile<T>(fileNameWithoutExtension, storeInAppData);
 
-            return JsonConvert.DeserializeObject<T>(File.ReadAllText(configPath, Encoding.UTF8));
+            return JsonSerializer.Deserialize<T>(File.ReadAllText(configPath, Encoding.UTF8));
         }
 
         /// <summary>Saves the configuration. </summary>
@@ -52,11 +41,8 @@ namespace ModTool.Utilities
         {
             CreateSchemaFile<T>(fileNameWithoutExtension, storeInAppData);
 
-            var settings = new JsonSerializerSettings();
-            settings.Converters.Add(new StringEnumConverter());
-
             var configPath = CreateFilePath(fileNameWithoutExtension, ConfigExtension, storeInAppData);
-            File.WriteAllText(configPath, JsonConvert.SerializeObject(configuration, Formatting.Indented, settings), Encoding.UTF8);
+            File.WriteAllText(configPath, JsonSerializer.Serialize(configuration, JsonSerializerOptions), Encoding.Unicode);
         }
 
         private static string CreateFilePath(string fileNameWithoutExtension, string extension, bool storeInAppData)
@@ -78,10 +64,10 @@ namespace ModTool.Utilities
         private static T CreateDefaultConfigurationFile<T>(string fileNameWithoutExtension, bool storeInAppData) where T : new()
         {
             var config = new T();
-            var configData = JsonConvert.SerializeObject(config, Formatting.Indented);
+            var configData = JsonSerializer.Serialize(config, JsonSerializerOptions);
             var configPath = CreateFilePath(fileNameWithoutExtension, ConfigExtension, storeInAppData);
 
-            File.WriteAllText(configPath, configData, Encoding.UTF8);
+            File.WriteAllText(configPath, configData, Encoding.Unicode);
             return config;
         }
 

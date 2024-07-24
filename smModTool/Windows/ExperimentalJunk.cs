@@ -1,17 +1,4 @@
-﻿using System.Diagnostics;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Controls.Primitives;
-using System.Windows.Controls;
-using System.Windows;
-using Panel = System.Windows.Forms.Panel;
-using ModTool.Languages;
-using AvalonDock.Layout;
-using System.Windows.Forms.Integration;
-using System.Windows.Media;
-
-namespace ModTool.Windows
+﻿namespace ModTool.Windows
 {
     /*class ExperimentalJunk : FrameworkElement
     {
